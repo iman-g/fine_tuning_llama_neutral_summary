@@ -1,11 +1,40 @@
-*.csv
-*.pkl
-*.env
-*.png
 __pycache__/
 eda_outputs_comprehensive/
 framing_bias_datasets/
 Old/
 framing-bias-metric/
 thes_env/
+
+
+
+# Data files containing article text — ToU risk
+*_judged.csv
+*_summaries.csv
+*_clean_*.csv
+full_evaluated.csv
+error_analysis_*.csv
+allsides_*.csv
+allsides_*.pkl
+*.pkl
+*.csv
+
+# Training data
+*.jsonl
+
+# Model weights and checkpoints
+llama3-bias-lora-v5/
+*.bin
+*.safetensors
+*.pt
+*.ckpt
+
+# Environment
+.env
+__pycache__/
+*.pyc
 .ipynb_checkpoints/
+*.egg-info/
+
+# Misc
+.DS_Store
+Thumbs.db
