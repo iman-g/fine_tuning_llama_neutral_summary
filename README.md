@@ -60,25 +60,45 @@ indicating rapid overfitting on truncated inputs.
 
 AllSides/NeuS dataset (307 stories × 3 stances = 921 test examples)
 │
+
 ├── 01_EDA.ipynb
+
 │     Dataset analysis, truncation quantification (~68 words/article),
+
 │     per-story similarity, roundup stance alignment
+
 │
+
 ├── 02_summary_generating.ipynb
+
 │     Zero-shot inference: Llama-3-8B-Instruct, 4-bit NF4 quantization
+
 │     Fine-tuned inference: LoRA adapter (best checkpoint: step 200)
+
 │
+
 ├── 04_finetune.py
+
 │     LoRA fine-tuning via HF TRL/SFTTrainer
+
 │     r=16, α=32, dropout=0.05, lr=2e-4, cosine schedule
+
 │     Target modules: q/k/v/o_proj, gate/up/down_proj
+
 │
+
 ├── 03_llm_judge.py
+
 │     GPT-4o-as-judge evaluation
+
 │     Dimensions: Neutrality, Coverage, Faithfulness, Roundup Alignment
+
 │     Calibrated rubric with anchor examples to prevent score inflation
+
 │
+
 └── 05_analyze.ipynb
+
 ROUGE-1/2/L, BERTScore, Warriner VAD lexicon
 Statistical tests (paired t-test, Cohen's d)
 Training curve, error analysis
