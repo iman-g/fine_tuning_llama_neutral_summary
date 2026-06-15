@@ -4,6 +4,7 @@ framing_bias_datasets/
 Old/
 framing-bias-metric/
 thes_env/
+output/
 
 
 
@@ -30,7 +31,6 @@ llama3-bias-lora-v5/
 
 # Environment
 .env
-__pycache__/
 *.pyc
 .ipynb_checkpoints/
 *.egg-info/
