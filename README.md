@@ -58,50 +58,41 @@ indicating rapid overfitting on truncated inputs.
 
 ## Pipeline
 
+```
 AllSides/NeuS dataset (307 stories × 3 stances = 921 test examples)
 │
-
 ├── 01_EDA.ipynb
-
 │     Dataset analysis, truncation quantification (~68 words/article),
-
 │     per-story similarity, roundup stance alignment
-
 │
-
 ├── 02_summary_generating.ipynb
-
 │     Zero-shot inference: Llama-3-8B-Instruct, 4-bit NF4 quantization
-
 │     Fine-tuned inference: LoRA adapter (best checkpoint: step 200)
-
 │
-
 ├── 04_finetune.py
-
 │     LoRA fine-tuning via HF TRL/SFTTrainer
-
 │     r=16, α=32, dropout=0.05, lr=2e-4, cosine schedule
-
 │     Target modules: q/k/v/o_proj, gate/up/down_proj
-
 │
-
 ├── 03_llm_judge.py
-
 │     GPT-4o-as-judge evaluation
-
 │     Dimensions: Neutrality, Coverage, Faithfulness, Roundup Alignment
-
 │     Calibrated rubric with anchor examples to prevent score inflation
-
 │
-
-└── 05_analyze.ipynb
-
-ROUGE-1/2/L, BERTScore, Warriner VAD lexicon
-Statistical tests (paired t-test, Cohen's d)
-Training curve, error analysis
+├── 05_analyze.ipynb
+│     ROUGE-1/2/L, BERTScore, Warriner VAD lexicon
+│     Statistical tests (paired t-test, Cohen's d)
+│     Training curve, error analysis
+│
+├── 06_judge_baseline.py
+│     Baseline validation: scores known left/center/right articles and
+│     expert roundups with the same GPT-4o neutrality judge
+│
+└── 06b_baseline_stats.py
+      Statistical validation of the baseline judge: Cohen's d with
+      bootstrap CI, Wilcoxon signed-rank, left-right symmetry check,
+      Spearman trend test
+```
 
 ---
 
@@ -148,8 +139,11 @@ reference is itself not fully stance-neutral.
 git clone https://github.com/iman-g/fine_tuning_llama_neutral_summary.git
 cd fine_tuning_llama_neutral_summary
 pip install -r requirements.txt
+```
 
-# Required environment variables (.env)
+Create a `.env` file in the project root with the following contents:
+
+```
 OPENAI_API_KEY=your_key_here   # for LLM judge
 HF_TOKEN=your_token_here        # for Llama-3 access
 ```
@@ -160,33 +154,25 @@ constraints. The NeuS dataset is available from [Lee et al. (2022)](https://acla
 ---
 
 ## Repository Structure
+
+```
 ├── 01_EDA.ipynb                    # Exploratory data analysis
-
 ├── 02_summary_generating.ipynb     # Zero-shot + fine-tuned inference
-
 ├── 03_llm_judge.py                 # LLM-as-judge evaluation pipeline
-
 ├── 04_finetune.py                  # LoRA fine-tuning script
-
 ├── 05_analyze.ipynb                # Results analysis and visualization
-
+├── 06_judge_baseline.py            # Baseline neutrality judge validation
+├── 06b_baseline_stats.py           # Statistical validation of baseline judge
 ├── results/
-
 │   ├── training_curve.png          # Train vs validation loss
-
 │   ├── judge_comparison.png        # Judge scores by model and stance
-
 │   ├── rouge_comparison.png        # ROUGE/BERTScore comparison
-
 │   ├── results_summary.csv         # Aggregated metrics (no raw text)
-
 │   └── trainer_state.json          # Full training log
-
 ├── .env.example
-
 ├── requirements.txt
-
 └── README.md
+```
 
 ---
 
